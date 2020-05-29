@@ -1,11 +1,13 @@
 import React,{useState} from 'react'
-import {View ,Text, Button, FlatList, TouchableOpacity, Modal, StyleSheet} from "react-native";
+import {View ,Text, Button, FlatList, TouchableOpacity, Modal, StyleSheet, Keyboard, TouchableWithoutFeedback} from "react-native";
 import {globalStyles} from '../styles/global'
 import Card from '../shared/card'
 import {MaterialIcons} from '@expo/vector-icons'
 
 import Form from './form'
 
+
+// validation done using (yup)
 export default function Home({navigation}){
     const [modalOpen, setModalOpen] = useState(false)
     // const pressHandler = () => {
@@ -25,13 +27,14 @@ export default function Home({navigation}){
         setReviews((prevState) => {
             return [review, ...prevState]
         })
-        setModalOpen(true)
+        setModalOpen(false)
     }
 
     return (
         <View style= {globalStyles.container}>
 
             <Modal visible = {modalOpen} animationType='slide'>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.modalContent}>
                 <MaterialIcons 
                     name = 'close'
@@ -43,6 +46,7 @@ export default function Home({navigation}){
                 />
                 <Form addReview={addReview}/>
                 </View>
+                </TouchableWithoutFeedback>
             </Modal>
             {/* <Text style= {globalStyles.titleText}>
                 Home Screen
