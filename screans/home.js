@@ -16,17 +16,31 @@ export default function Home({navigation}){
     // }
 
     const [reviews, setReviews] = useState([
-        // {title: 'abc',rating: 5, body: 'abc', key: '1'},
-        // {title: 'xyz',rating: 4, body: 'abc', key: '2'},
-        // {title: 'mno',rating: 3, body: 'abc', key: '3'},
-        // {title: 'pqr',rating: 2, body: 'abc', key: '4'},
-        // {title: 'efg',rating: 1, body: 'abc', key: '5'}
+     
     ]);
 
     const addReview = (review) => {
         review.key = Math.random(10000).toString();
+        review["category"] = '5ec4a88106d10236454be3fd'
         setReviews((prevState) => {
-            return [review, ...prevState]
+            let value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWM0YTg0MTA2ZDEwMjM2NDU0YmUzZmIiLCJuYW1lIjoic2hpdmEiLCJlbWFpbCI6InNoaXZhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEg0SVJBNDVObTdEclZBZ3FRWXNsY2VXeklDT24wNGxNM0tqQWswVWpmRFgueHdONGVnVndTIiwiaWF0IjoxNTkxMDIxMDc4fQ.GhLsuKm3Jcxx_ANZuBllChEUeK3fMUStxq0jDsd6HkI'
+
+            fetch('https://snotemern.herokuapp.com/notes', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'x-auth': value
+                },
+                body: JSON.stringify(review)
+            })
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
         })
         setModalOpen(false)
     }
@@ -34,16 +48,13 @@ export default function Home({navigation}){
     useEffect(() => {
         AsyncStorage.getItem('token')
         .then(value => {
-            console.log('token in home ', value)
             fetch('http://snotemern.herokuapp.com/notes',{headers: {'x-auth': value}})
             .then(resp => resp.json())
             .then(resp => {
-                let review = {}
-                review['title'] = resp[0].title
-                review['rating'] = 5
-                review['body'] = resp[0].body
-                review['key'] = Math.random(10000).toString();
-                setReviews([review])      
+                let reviews = resp.map(r => {
+                    return {title: r.title, rating: 5, body: r.body, key:  r.title}
+                })
+                setReviews(reviews)      
             })
         })    
     })
