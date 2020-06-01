@@ -1,9 +1,9 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import {View ,Text, Button, FlatList, TouchableOpacity, Modal, StyleSheet, Keyboard, TouchableWithoutFeedback} from "react-native";
 import {globalStyles} from '../styles/global'
 import Card from '../shared/card'
 import {MaterialIcons} from '@expo/vector-icons'
-
+import AsyncStorage from '@react-native-community/async-storage'
 import Form from './form'
 
 
@@ -14,12 +14,13 @@ export default function Home({navigation}){
     //     navigation.navigate('ReviewDetails')
     //     // navigation.push('ReviewDetails')
     // }
+
     const [reviews, setReviews] = useState([
-        {title: 'abc',rating: 5, body: 'abc', key: '1'},
-        {title: 'xyz',rating: 4, body: 'abc', key: '2'},
-        {title: 'mno',rating: 3, body: 'abc', key: '3'},
-        {title: 'pqr',rating: 2, body: 'abc', key: '4'},
-        {title: 'efg',rating: 1, body: 'abc', key: '5'}
+        // {title: 'abc',rating: 5, body: 'abc', key: '1'},
+        // {title: 'xyz',rating: 4, body: 'abc', key: '2'},
+        // {title: 'mno',rating: 3, body: 'abc', key: '3'},
+        // {title: 'pqr',rating: 2, body: 'abc', key: '4'},
+        // {title: 'efg',rating: 1, body: 'abc', key: '5'}
     ]);
 
     const addReview = (review) => {
@@ -29,6 +30,23 @@ export default function Home({navigation}){
         })
         setModalOpen(false)
     }
+
+    useEffect(() => {
+        AsyncStorage.getItem('token')
+        .then(value => {
+            console.log('token in home ', value)
+            fetch('http://snotemern.herokuapp.com/notes',{headers: {'x-auth': value}})
+            .then(resp => resp.json())
+            .then(resp => {
+                let review = {}
+                review['title'] = resp[0].title
+                review['rating'] = 5
+                review['body'] = resp[0].body
+                review['key'] = Math.random(10000).toString();
+                setReviews([review])      
+            })
+        })    
+    })
 
     return (
         <View style= {globalStyles.container}>
@@ -65,7 +83,9 @@ export default function Home({navigation}){
             <FlatList
                 data={reviews}
                 renderItem={({item}) => (
-                    <TouchableOpacity onPress = {() => navigation.navigate('ReviewDetails',item)}>
+                    <TouchableOpacity onPress = {() => {
+                        navigation.navigate('ReviewDetails',item)
+                    }}>
                         <Card>
                             <Text style = {globalStyles.titleText}>{item.title}</Text>
                         </Card>

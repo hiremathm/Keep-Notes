@@ -1,8 +1,6 @@
-import React,{useState} from 'react'
-import {View ,Text, Button, FlatList, TouchableOpacity, Modal, StyleSheet, TextInput} from "react-native";
+import React from 'react'
+import {View ,Text, Button, TextInput} from "react-native";
 import {globalStyles} from '../styles/global'
-import Card from '../shared/card'
-import {MaterialIcons} from '@expo/vector-icons'
 import { Formik } from 'formik'
 
 import * as yup from 'yup'
@@ -42,7 +40,7 @@ export default function Form ({addReview}){
                                 <Text style={globalStyles.errorText}>{props.touched.title && props.errors.title}</Text>
 
                                 <TextInput 
-                                    multiline
+                                    multiline minHeight={60}
                                     style={globalStyles.input}
                                     placeholder = 'Description'
                                     onChangeText={props.handleChange('body')}
