@@ -9,7 +9,8 @@ import Navigator from './routes/drawer'
 
 const getFonts = () => Font.loadAsync({
   'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
-  'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf')
+  'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
+  'nunito-light': require('./assets/fonts/Nunito-Light.ttf')
 })
 
 export default function App() {

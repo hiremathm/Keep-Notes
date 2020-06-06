@@ -27,6 +27,24 @@ export const globalStyles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 6,
         textAlign: 'center'
+    },
+    about: {
+        position: "absolute", 
+        padding: 20, 
+        fontFamily: 'nunito-bold',
+        bottom: 25,
+        fontSize: 16,
+        color: 'black',
+    },
+    technologies: {
+        position: "absolute", 
+        padding: 20, 
+        fontFamily: 'nunito-light',
+        bottom: 0,
+        fontSize: 16,
+        color: '#0000ff',
+        lineHeight: 5
+        
     }
 })
 

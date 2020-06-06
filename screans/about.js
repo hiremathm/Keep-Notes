@@ -6,8 +6,11 @@ export default function About(){
     return (
         <View style= {globalStyles.container}>
             <Text style = {globalStyles.titleText}>
-                About Screan
+                This is the Note Application for keeping all personal notes safely.
             </Text>
+  
+            <Text style={globalStyles.about}> Done by Shivakumara M Hiremath </Text>
+            <Text style={globalStyles.technologies}> ReactNative | MongoDB | NodeJS | ExpressJS </Text>
         </View>
     )
 }

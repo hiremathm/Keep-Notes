@@ -1,22 +1,22 @@
 import React from 'react'
 import {createStackNavigator} from 'react-navigation-stack'
 
-import Login from '../screans/login'
+import Logout from '../screans/logout'
 import Header from '../shared/header'
 
 const screens = {
-    Login: {
-        screen: Login,
+    Logout: {
+        screen: Logout,
         navigationOptions: ({navigation}) => {
             return {
-                headerTitle: () => <Header navigation={navigation} title="SignIn / SignUp "/>
+                headerTitle: () => <Header navigation={navigation} title="Logout "/>
             } 
         }
     }
 }
 
 
-const LoginStack = createStackNavigator(screens,{
+const LogoutStack = createStackNavigator(screens,{
     defaultNavigationOptions: {
         headerStyle: {
             backgroundColor: '#ccc', height: 70
@@ -24,4 +24,4 @@ const LoginStack = createStackNavigator(screens,{
     }
 })
 
-export default LoginStack;
+export default LogoutStack;

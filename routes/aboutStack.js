@@ -11,7 +11,7 @@ const screens = {
         navigationOptions: ({navigation}) => {
             return {
                 // title: 'GaneZone'
-                headerTitle: () => <Header navigation={navigation} title="About Gamezone"/>
+                headerTitle: () => <Header navigation={navigation} title="About KeepNote"/>
             } 
         }
     }

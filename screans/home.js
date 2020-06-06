@@ -22,43 +22,45 @@ export default function Home({navigation}){
     const addReview = (review) => {
         review.key = Math.random(10000).toString();
         review["category"] = '5ec4a88106d10236454be3fd'
-        setReviews((prevState) => {
-            let value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWM0YTg0MTA2ZDEwMjM2NDU0YmUzZmIiLCJuYW1lIjoic2hpdmEiLCJlbWFpbCI6InNoaXZhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEg0SVJBNDVObTdEclZBZ3FRWXNsY2VXeklDT24wNGxNM0tqQWswVWpmRFgueHdONGVnVndTIiwiaWF0IjoxNTkxMDIxMDc4fQ.GhLsuKm3Jcxx_ANZuBllChEUeK3fMUStxq0jDsd6HkI'
-
-            fetch('https://snotemern.herokuapp.com/notes', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'x-auth': value
-                },
-                body: JSON.stringify(review)
-            })
-            .then(response => response.json())
-            .then(response => {
-                console.log(response)
-            })
-            .catch(error => {
-                console.log(error)
+        AsyncStorage.getItem('token')
+        .then(value => {
+            setReviews((prevState) => {
+                fetch('https://snotemern.herokuapp.com/notes', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'x-auth': value
+                    },
+                    body: JSON.stringify(review)
+                })
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
             })
         })
         setModalOpen(false)
     }
 
     useEffect(() => {
-        AsyncStorage.getItem('token')
-        .then(value => {
-            fetch('http://snotemern.herokuapp.com/notes',{headers: {'x-auth': value}})
+    AsyncStorage.getItem('token')
+        .then(token => {
+            token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWM0YTgwZTA2ZDEwMjM2NDU0YmUzZmEiLCJuYW1lIjoiYWlzaHUiLCJlbWFpbCI6ImFpc2h1QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJGNxdlhWOElOcVlRQVJDeXN6MTRVRE9IUUtydXFEeEpEcE1GSTVMMlJoR0h3VEFNSkJqVXRDIiwiaWF0IjoxNTkxMjQyMDgwfQ.mrbO5jaeQISCMOcJdVuu7OelVM-iymDw5NoEf9XkWrg'
+            fetch('http://snotemern.herokuapp.com/notes',{headers: {'x-auth': token}})
             .then(resp => resp.json())
             .then(resp => {
+                console.log("callback response ", token)
                 let reviews = resp.map(r => {
                     return {title: r.title, rating: 5, body: r.body, key:  r.title}
                 })
                 setReviews(reviews)      
             })
-        })    
+        })
     })
-
     return (
         <View style= {globalStyles.container}>
 

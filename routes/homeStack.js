@@ -12,7 +12,7 @@ const screens = {
         navigationOptions: ({navigation}) => {
             return {
                 // title: 'GaneZone'
-                headerTitle: () => <Header navigation={navigation} title="GameZone"/>
+                headerTitle: () => <Header navigation={navigation} title="KeepNote"/>
             } 
         }
     },
